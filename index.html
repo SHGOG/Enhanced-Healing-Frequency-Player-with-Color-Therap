@@ -1,121 +1,178 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>Enhanced Healing Frequency Player with Color Therapy</title>
 <style>
     body {
-        transition: background-color 2s;
+        font-family: 'Arial', sans-serif;
+        transition: background-color 2s ease-in-out;
+        color: #fff;
+        padding: 20px;
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+    }
+
+    h2 {
+        text-align: center;
+        color: #fff;
+    }
+
+    label {
+        display: block;
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+    select, input[type=range], input[type=number], button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+    }
+
+    select, input[type=number] {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #333;
+    }
+
+    input[type=range] {
+        cursor: pointer;
+    }
+
+    button {
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .container {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 15px;
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
 </style>
 </head>
 <body>
 
-<h2>Enhanced Healing Frequency Player with Color Therapy</h2>
-<p>Adjust the settings below and click "Play Healing Frequencies" to start playing a seamless series of tones with selectable chord variations and corresponding background colors for an enhanced music therapy experience.</p>
+<div class="container">
+    <h2>Enhanced Healing Frequency Player with Color Therapy</h2>
+    <p>Adjust the settings below and click "Play Healing Frequencies" to start playing a seamless series of tones with selectable chord variations and corresponding background colors for an enhanced music therapy experience.</p>
 
-<div>
-    <label for="chordPattern">Chord Pattern:</label>
-    <select id="chordPattern" onchange="updateBackgroundColor()">
-        <option value="0">Original: 396, 528, 639, 741, 852 (解放と変換)</option>
-        <option value="1">Pattern 1: 174, 285, 396, 417, 528 (痛みの軽減と修復)</option>
-        <option value="2">Pattern 2: 639, 741, 852, 963, 1074 (関係とコミュニケーションの強化)</option>
-        <option value="3">Pattern 3: 285, 396, 417, 528, 639 (創造性と解決策の促進)</option>
-        <option value="4">Pattern 4: 741, 852, 963, 1074, 1185 (直感力の向上と精神の浄化)</option>
-    </select>
-</div>
-<div>
-    <label for="volume">Volume:</label>
-    <input type="range" id="volume" value="0.01" min="0" max="1" step="0.01" title="Adjust the volume of the playback.">
-</div>
-<div>
-    <label for="chords">Number of Chords:</label>
-    <input type="number" id="chords" value="5" min="1" max="5" step="1" title="Number of chords to play in each arpeggio.">
-</div>
-<div>
-    <label for="duration">Duration (seconds):</label>
-    <input type="number" id="duration" value="15" step="0.1" min="0.1" title="Total duration of each tone in seconds.">
-</div>
-<div>
-    <label for="attack">Attack Time (seconds):</label>
-    <input type="number" id="attack" value="3" step="0.01" min="0.01" max="15" title="Time taken for the sound to reach its peak volume from silence.">
-</div>
-<div>
-    <label for="release">Release Time (seconds):</label>
-    <input type="number" id="release" value="4" step="0.01" min="0.01" max="15" title="Time taken for the sound to fade to silence before the tone ends.">
-</div>
+    <div>
+        <label for="chordPattern">Chord Pattern:</label>
+        <select id="chordPattern" onchange="updateBackgroundColor()">
+            <option value="0">Original: 396, 528, 639, 741, 852 (解放と変換)</option>
+            <option value="1">Pattern 1: 174, 285, 396, 417, 528 (痛みの軽減と修復)</option>
+            <option value="2">Pattern 2: 639, 741, 852, 963, 1074 (関係とコミュニケーションの強化)</option>
+            <option value="3">Pattern 3: 285, 396, 417, 528, 639 (創造性と解決策の促進)</option>
+            <option value="4">Pattern 4: 741, 852, 963, 1074, 1185 (直感力の向上と精神の浄化)</option>
+        </select>
+    </div>
+    <div>
+        <label for="volume">Volume:</label>
+        <input type="range" id="volume" value="0.01" min="0" max="1" step="0.01">
+    </div>
+    <div>
+        <label for="chords">Number of Chords:</label>
+        <input type="number" id="chords" value="5" min="1" max="5" step="1">
+    </div>
+    <div>
+        <label for="duration">Duration (seconds):</label>
+        <input type="number" id="duration" value="15" step="0.1" min="0.1">
+    </div>
+    <div>
+        <label for="attack">Attack Time (seconds):</label>
+        <input type="number" id="attack" value="3" step="0.01" min="0.01" max="15">
+    </div>
+    <div>
+        <label for="release">Release Time (seconds):</label>
+        <input type="number" id="release" value="4" step="0.01" min="0.01" max="15">
+    </div>
 
-<button onclick="startAudio()">Play Healing Frequencies</button>
+    <button onclick="startAudio()">Play Healing Frequencies</button>
+</div>
 
 <script>
-var audioCtx;
-var isPlaying = false;
-var chordPatterns = [
-    [396, 528, 639, 741, 852],
-    [174, 285, 396, 417, 528],
-    [639, 741, 852, 963, 1074],
-    [285, 396, 417, 528, 639],
-    [741, 852, 963, 1074, 1185]
-];
-var colorPatterns = [
-    "blue", // Original
-    "green", // Pattern 1
-    "orange", // Pattern 2
-    "yellow", // Pattern 3
-    "purple" // Pattern 4
-];
+    var audioCtx;
+    var isPlaying = false;
+    var chordPatterns = [
+        [396, 528, 639, 741, 852],
+        [174, 285, 396, 417, 528],
+        [639, 741, 852, 963, 1074],
+        [285, 396, 417, 528, 639],
+        [741, 852, 963, 1074, 1185]
+    ];
+    var colorPatterns = [
+        "linear-gradient(135deg, #89F7FE, #66A6FF)", // Original
+        "linear-gradient(135deg, #DFFFD6, #00BFA5)", // Pattern 1
+        "linear-gradient(135deg, #FFE57F, #FFD740)", // Pattern 2
+        "linear-gradient(135deg, #FFD180, #FFAB40)", // Pattern 3
+        "linear-gradient(135deg, #EA80FC, #B388FF)"  // Pattern 4
+    ];
 
-function startAudio() {
-    if (!isPlaying) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        isPlaying = true;
-        playContinuousArpeggio();
-        updateBackgroundColor();
-    }
-}
-
-function playTone(frequency, startTime, duration, attack, release, volume) {
-    var oscillator = audioCtx.createOscillator();
-    var gainNode = audioCtx.createGain();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime + startTime);
-
-    var now = audioCtx.currentTime + startTime;
-    gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(volume, now + attack);
-    gainNode.gain.setValueAtTime(volume, now + duration - release);
-    gainNode.gain.linearRampToValueAtTime(0, now + duration);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-
-    oscillator.start(now);
-    oscillator.stop(now + duration);
-}
-
-function playContinuousArpeggio(startTime = 0) {
-    var duration = parseFloat(document.getElementById('duration').value);
-    var attack = parseFloat(document.getElementById('attack').value);
-    var release = parseFloat(document.getElementById('release').value);
-    var volume = parseFloat(document.getElementById('volume').value);
-    var chords = parseInt(document.getElementById('chords').value, 10);
-    var patternIndex = parseInt(document.getElementById('chordPattern').value, 10);
-    var chordFrequencies = chordPatterns[patternIndex];
-
-    for (let i = 0; i < chords; i++) {
-        let freqIndex = Math.floor(Math.random() * chordFrequencies.length);
-        let freq = chordFrequencies[freqIndex];
-        playTone(freq, startTime + i * attack, duration, attack, release, volume);
+    function startAudio() {
+        if (!isPlaying) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            isPlaying = true;
+            playContinuousArpeggio();
+            updateBackgroundColor();
+        }
     }
 
-    var nextStartTime = startTime + chords * attack - release;
-    setTimeout(function() { playContinuousArpeggio(nextStartTime); }, nextStartTime * 1000);
-}
+    function playTone(frequency, startTime, duration, attack, release, volume) {
+        var oscillator = audioCtx.createOscillator();
+        var gainNode = audioCtx.createGain();
 
-function updateBackgroundColor() {
-    var patternIndex = parseInt(document.getElementById('chordPattern').value, 10);
-    document.body.style.backgroundColor = colorPatterns[patternIndex];
-}
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime + startTime);
+
+        var now = audioCtx.currentTime + startTime;
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(volume, now + attack);
+        gainNode.gain.setValueAtTime(volume, now + duration - release);
+        gainNode.gain.linearRampToValueAtTime(0, now + duration);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start(now);
+        oscillator.stop(now + duration);
+    }
+
+    function playContinuousArpeggio(startTime = 0) {
+        var duration = parseFloat(document.getElementById('duration').value);
+        var attack = parseFloat(document.getElementById('attack').value);
+        var release = parseFloat(document.getElementById('release').value);
+        var volume = parseFloat(document.getElementById('volume').value);
+        var chords = parseInt(document.getElementById('chords').value, 10);
+        var patternIndex = parseInt(document.getElementById('chordPattern').value, 10);
+        var chordFrequencies = chordPatterns[patternIndex];
+
+        for (let i = 0; i < chords; i++) {
+            let freqIndex = Math.floor(Math.random() * chordFrequencies.length);
+            let freq = chordFrequencies[freqIndex];
+            playTone(freq, startTime + i * attack, duration, attack, release, volume);
+        }
+
+        var nextStartTime = startTime + chords * attack - release;
+        setTimeout(function() { playContinuousArpeggio(nextStartTime); }, nextStartTime * 1000);
+    }
+
+    function updateBackgroundColor() {
+        var patternIndex = parseInt(document.getElementById('chordPattern').value, 10);
+        document.body.style.background = colorPatterns[patternIndex];
+    }
 </script>
 
 </body>
